@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+  web:
+    build: .
+    ports:
+      - "1235:3000"
+    volumes:
+      - ./app:/code
   postgres:
     image: mdillon/postgis:9.6
     restart: always
