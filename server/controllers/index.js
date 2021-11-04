@@ -1,7 +1,7 @@
 const fs = require("fs");
 const Properties = require("../models/").Properties;
 const SpatialRefSys = require("../models").SpatialRefSys;
-const { Op } = require("sequelize");
+const sequelize = require("sequelize");
 const _ = require("lodash");
 
 exports.getIndex = (req, res, next) => {
@@ -42,7 +42,7 @@ exports.oneProperty = async (req, res, next) => {
       const { geocode_geo: { crs: { properties: { name } } } } = result;
       const spat = await SpatialRefSys.findAll({
         where: {
-          [Op.and]: [
+          [sequelize.Op.and]: [
             { srid: +name.split(":")[1] },
             { auth_name: name.split(":")[0] }
           ]
@@ -57,3 +57,24 @@ exports.oneProperty = async (req, res, next) => {
     res.send({ status: "error", e });
   }
 };
+
+exports.findProperty = async (req, res, next) => {  
+  const {geometry: {type, coordinates}} = req.body;
+  const distance = req.body["x-distance"];
+
+  console.log(distance);
+  console.log(coordinates);
+
+  try {
+    const results = await Properties.findAll({
+      where: sequelize.fn('ST_DWithin', 
+                sequelize.literal('geocode_geo'), 
+                sequelize.literal('ST_MakePoint('+coordinates[0]+','+coordinates[1]+')'),
+                distance)
+    });
+    res.send({status: "ok", results});
+  } catch(e) {    
+    console.error(e);
+    res.send({status: "error", e});
+  }  
+}

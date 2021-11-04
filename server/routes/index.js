@@ -5,5 +5,6 @@ var indexController = require('../controllers/index.js');
 router.get('/', indexController.getIndex);
 router.get('/properties', indexController.getAllProps);
 router.post('/property/:pid', indexController.oneProperty);
+router.post('/find', indexController.findProperty);
 
 module.exports = router;
