@@ -11,11 +11,14 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
+    "formik": "^2.2.9",
     "geotiff": "^1.0.8",
+    "leaflet": "^1.7.1",
     "plotty": "^0.4.7",
     "react": "^17.0.2",
     "react-data-table-component": "^7.4.5",
     "react-dom": "^17.0.2",
+    "react-leaflet": "^3.2.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
@@ -39,18 +42,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "http-proxy-middleware": "^2.0.1"
   }

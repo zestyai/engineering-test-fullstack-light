@@ -24,8 +24,7 @@ export const fetchAllProps = () => async (dispatch) => {
   }
 };
 
-export const selectProperty = (pid) => async (dispatch) => {
-  // dispatch(setFetchingStatus(true));
+export const selectProperty = (pid) => async (dispatch) => {  
   try {
     const {data: {status, result}} = await axios.post(`/property/${pid}`);
     if (status === "ok") {
@@ -33,7 +32,14 @@ export const selectProperty = (pid) => async (dispatch) => {
     }
   } catch (error) {
     console.error(error);
-  } finally {
-    // dispatch(setFetchingStatus(false));
-  }  
+  } 
+}
+
+export const findProperties = (geojson) => async (dispatch) => {
+  try {
+    const results = await axios.post('/find', geojson);
+    console.log(results);
+  } catch(error) {
+    console.error(error);
+  }
 }
