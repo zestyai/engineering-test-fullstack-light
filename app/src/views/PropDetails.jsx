@@ -83,7 +83,7 @@ const PropDetails = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { geocode_geo, image_url } = state.property;
+  const { geocode_geo, image_url } = state.properties.property;
   return geocode_geo ? {
     property: {
       name: geocode_geo.crs.properties.name,

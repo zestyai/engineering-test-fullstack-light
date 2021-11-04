@@ -6,7 +6,6 @@ import Link from "@mui/material/Link";
 import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { fetchAllProps } from "../store/utils/thunkCreators";
-import { Header } from "../components/Header";
 import { useHistory } from "react-router";
 
 const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
@@ -53,7 +52,7 @@ const PropList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    properties: state.properties,
+    properties: state.properties.properties,
   };
 }
 
