@@ -41,8 +41,7 @@ const PropList = (props) => {
     fetchAllProps();
   }, []);
 
-  return <GridBox>
-    <Header />
+  return <GridBox>    
     {properties && <DataTable columns={columns}
       data={properties}
       expandableRows

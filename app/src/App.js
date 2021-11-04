@@ -7,6 +7,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {Provider} from "react-redux";
 import store from "./store";
 import PropDetails from './views/PropDetails';
+import Splash from "./views/Splash";
+import FindProps from './views/FindProps';
+import {Header} from "./components/Header";
 
 const theme = createTheme({
   status: {
@@ -23,10 +26,13 @@ function App() {
       <ThemeProvider theme={theme}>
       <CssBaseline />
         <div>
+          <Header />
           <Router>
             <Switch>
-              <Route exact path="/" component={PropList} />
+              <Route exact path="/" component={Splash} />
+              <Route path="/list" component={PropList} />
               <Route path="/detail/:pid" component={PropDetails} />
+              <Route path="/find" component={FindProps} />
             </Switch>
           </Router>
         </div>

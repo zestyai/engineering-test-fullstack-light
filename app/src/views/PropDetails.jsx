@@ -6,13 +6,14 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { selectProperty } from "../store/utils/thunkCreators";
-import { Header } from "../components/Header";
 import { useParams } from "react-router";
 import { fromUrl } from 'geotiff';
 import * as plotty from "plotty";
+import { useHistory } from "react-router-dom";
 
 
 const DetailBox = styled(Box)(({ theme }) => ({
@@ -24,6 +25,8 @@ const PropDetails = (props) => {
   const { property, selectProperty } = props;
   const { pid } = useParams();
   const [imgData, setImgData] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     selectProperty(pid);
@@ -41,36 +44,41 @@ const PropDetails = (props) => {
 
         const canvas = document.createElement("canvas");
         const width = img.getWidth();
-        const height = img.getHeight();        
+        const height = img.getHeight();
         const plot = new plotty.plot({
           canvas,
           data: data[0],
           width,
           height,
-          domain: [0, 256],          
-        });        
+          domain: [0, 256],
+        });
         plot.render();
         setImgData(canvas.toDataURL());
+
       })
     }
   }, [property]);
 
-  return <DetailBox>
-    <Header />
+  const handleClickBack = e => {
+    history.replace("/");
+  }
+
+  return <DetailBox>    
     {property && <Container maxWidth="sm" >
-    <Card sx={{ maxWidth: 345 }} sx={{marginLeft: "auto", marginRight: "auto"}}>
-      <CardHeader title={property.name} />
-      {imgData && <CardMedia component="img" alt="property image" src={imgData}/>}
-      {!imgData && <Typography>Loading ...</Typography>}
-      <CardContent>
-        <Typography>
-          Property latitude: {property.coordinates[0]}
-        </Typography>
-        <Typography>
-          Property longitude: {property.coordinates[1]}
-        </Typography>
-      </CardContent>
-    </Card></Container>}
+      <Card sx={{ maxWidth: 345 }} sx={{ marginLeft: "auto", marginRight: "auto" }}>
+        <CardHeader title={property.name} />
+        {imgData && <CardMedia component="img" alt="property image" src={imgData} />}
+        {!imgData && <Typography>Loading ...</Typography>}
+        <CardContent>
+          <Typography>
+            Property latitude: {property.coordinates[0]}
+          </Typography>
+          <Typography>
+            Property longitude: {property.coordinates[1]}
+          </Typography>
+          <Button variant="contained" onClick={handleClickBack}>Back</Button>
+        </CardContent>
+      </Card></Container>}
   </DetailBox>
 };
 
