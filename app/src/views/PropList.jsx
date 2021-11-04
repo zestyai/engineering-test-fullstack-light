@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { fetchAllProps } from "../store/utils/thunkCreators";
 import { useHistory } from "react-router";
+import Button from "@mui/material/Button";
 
 const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
 const sortIcon = <ArrowCircleDownIcon />;
@@ -21,9 +22,13 @@ const PropList = (props) => {
   const history = useHistory();
 
   const handleClickLink = useCallback((id, e) => {
-    e.preventDefault();    
+    e.preventDefault();
     history.replace(`/detail/${id}`);
   }, [properties]);
+
+  const handleClickBack = e => {
+    history.replace("/#");
+  };
 
   const columns = useMemo(() => [{
     name: "Property latitude",
@@ -40,7 +45,13 @@ const PropList = (props) => {
     fetchAllProps();
   }, []);
 
-  return <GridBox>    
+  return <GridBox>
+    <Box>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleClickBack}>Back</Button>
+    </Box>
     {properties && <DataTable columns={columns}
       data={properties}
       expandableRows

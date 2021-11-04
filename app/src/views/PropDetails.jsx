@@ -60,10 +60,10 @@ const PropDetails = (props) => {
   }, [property]);
 
   const handleClickBack = e => {
-    history.replace("/");
+    history.replace("/list");
   }
 
-  return <DetailBox>    
+  return <DetailBox>
     {property && <Container maxWidth="sm" >
       <Card sx={{ maxWidth: 345 }} sx={{ marginLeft: "auto", marginRight: "auto" }}>
         <CardHeader title={property.name} />
@@ -76,7 +76,10 @@ const PropDetails = (props) => {
           <Typography>
             Property longitude: {property.coordinates[1]}
           </Typography>
-          <Button variant="contained" onClick={handleClickBack}>Back</Button>
+          <Button
+            variant="contained"
+            onClick={handleClickBack}
+            color="secondary" sx={{ margin: "10px 0" }}>Back</Button>
         </CardContent>
       </Card></Container>}
   </DetailBox>
