@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class properties extends Model {    
+  class Properties extends Model {    
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  properties.init({
+  Properties.init({
     geocode_geo: { type: DataTypes.GEOGRAPHY, allowNull: true },
     parcel_geo: { type: DataTypes.GEOGRAPHY, allowNull: true },
     building_geo: { type: DataTypes.GEOGRAPHY, allowNull: true },
@@ -21,8 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     image_url: { type: DataTypes.TEXT, allowNull: false }
   }, {
     sequelize,
-    modelName: 'properties',
+    modelName: 'Properties',
+    tableName: "properties",
     timestamps: false
   });
-  return properties;
+  return Properties;
 };

@@ -7,25 +7,12 @@
     "port": 5555,
     "dialect": "postgres"
   },
-  "database": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "dialect": "sqlite",
-    "storage": "./main.sqlite"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "dialect": "sqlite",
-    "storage": "./main.sqlite"
-  },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "dialect": "sqlite",
-    "storage": "./main.sqlite"
-  }  
+    "database": "zesty",
+    "password": "engineTest888",
+    "username": "postgres",
+    "host": "localhost",
+    "port": 5555,
+    "dialect": "postgres"
+  }
 }
