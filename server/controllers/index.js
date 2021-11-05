@@ -141,7 +141,7 @@ exports.display = async (req, res, next) => {
         "type": parcel_geo.type,
         "coordinates": parcel_geo.coordinates
       }
-      context.strokeStyle = parcel;
+      context.strokeStyle = parcel ? parcel : "blue";
       context.beginPath();
       geoGenerator(geojson);
       context.stroke();
@@ -151,7 +151,7 @@ exports.display = async (req, res, next) => {
         "type": building_geo.type,
         "coordinates": building_geo.coordinates
       };
-      context.strokeStyle = building;
+      context.strokeStyle = building ? building : "red";
       context.beginPath();
       geoGenerator(geojson);
       context.stroke();
