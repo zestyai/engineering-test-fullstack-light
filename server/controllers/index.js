@@ -82,27 +82,38 @@ exports.findProperty = async (req, res, next) => {
 };
 
 exports.display = async (req, res, next) => {
-  const { id, overlay, parcel, building } = req.params;
+  const { id } = req.params;
   const query = req.query;
+
+  const { overlay, building, parcel } = query;
 
   try {
     const result = await Properties.findOne({
       where: { id }
     });
-    console.log(result);
     const { dataValues: { geocode_geo, parcel_geo, building_geo, image_bounds, image_url } } = result;
 
     const tiff = await fromUrl(image_url);
     const img = await tiff.getImage();
     const width = img.getWidth();
     const height = img.getHeight();
-    const values = img.getBoundingBox();
+    const tileWidth = img.getTileWidth();
+    const tileHeight = img.getTileHeight();
+    const samplesPerPixel = img.getSamplesPerPixel();
+    const resolution = img.getResolution();
+    let img_res = Math.max(Math.abs(resolution[0]), Math.abs(resolution[1]));
+    let scale = Math.abs(Math.floor(Math.log10(img_res)));
+    scale = Math.ceil(img_res * Math.pow(10, 2 * scale));
+
+    const origin = img.getOrigin();
+    const bounds = img.getBoundingBox();
+
     const geoTiffDataRGB = await img.readRGB({});
 
     let projection = d3n.d3.geoMercator()
-      .scale(1500)
-      .center([geocode_geo.coordinates[0], geocode_geo.coordinates[1]])
-      .translate([width / 2, height / 2]); //longitude, latitude
+      .scale(scale)
+      .center([origin[0], origin[1]])
+      .translate([width / (2 * tileHeight * samplesPerPixel), height / (2 * tileHeight * samplesPerPixel)]); //longitude, latitude
 
     const canvas = d3n.createCanvas(width, height);
     const context = canvas.getContext('2d');
@@ -116,27 +127,36 @@ exports.display = async (req, res, next) => {
         data[idx] = geoTiffDataRGB[srcIdx];
         data[idx + 1] = geoTiffDataRGB[srcIdx + 1];
         data[idx + 2] = geoTiffDataRGB[srcIdx + 2];
-        data[idx + 3] = 255; 
+        data[idx + 3] = 255;
       }
     }
 
     context.putImageData(imgData, 0, 0);
-    context.strokeStyle = "blue";
-    context.fillStyle = "blue";
-    context.fillRect(10, 10, 100, 100);
+    if (overlay === "yes") {
+      let geoGenerator = d3n.d3.geoPath().projection(projection).context(context);
+      context.lineWidth = 10;
 
-    let geoGenerator = d3n.d3.geoPath().projection(projection).context(context);
-    // context.beginPath();
-    // geoGenerator(parcel_geo);
-    // context.stroke();
-    let circleGenerator = d3n.d3.geoCircle()
-      .center([-73.7491701543331, 40.9182316369111])
-      .radius(5);
-    let circle = circleGenerator();
+      // draw parcel overlay
+      let geojson = {
+        "type": parcel_geo.type,
+        "coordinates": parcel_geo.coordinates
+      }
+      context.strokeStyle = parcel;
+      context.beginPath();
+      geoGenerator(geojson);
+      context.stroke();
+      
+      // draw building overlay
+      geojson = {
+        "type": building_geo.type,
+        "coordinates": building_geo.coordinates
+      };
+      context.strokeStyle = building;
+      context.beginPath();
+      geoGenerator(geojson);
+      context.stroke();
+    }
 
-    context.beginPath();
-    geoGenerator(circle);
-    context.stroke();
 
 
     canvas.pngStream().pipe(fs.createWriteStream('output.png'));
