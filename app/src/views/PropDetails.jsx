@@ -11,8 +11,6 @@ import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { selectProperty } from "../store/utils/thunkCreators";
 import { useParams } from "react-router";
-import { fromUrl } from 'geotiff';
-import * as plotty from "plotty";
 import { useHistory } from "react-router-dom";
 
 
@@ -22,41 +20,14 @@ const DetailBox = styled(Box)(({ theme }) => ({
 }))
 
 const PropDetails = (props) => {
-  const { property, selectProperty } = props;
-  const { pid } = useParams();
-  const [imgData, setImgData] = useState(null);
+  const { property, selectProperty} = props;
+  const { pid } = useParams();  
 
   const history = useHistory();
 
   useEffect(() => {
     selectProperty(pid);
   }, []);
-
-  useEffect(() => {
-    if (property) {
-      const { image_url } = property;
-      const img = image_url.split("/").pop();
-
-      fromUrl(`api/${img}`).then(async tiff => {        
-        const img = await tiff.getImage();
-        const data = await img.readRasters();
-
-        const canvas = document.createElement("canvas");
-        const width = img.getWidth();
-        const height = img.getHeight();
-        const plot = new plotty.plot({
-          canvas,
-          data: data[0],
-          width,
-          height,
-          domain: [0, 256],
-        });
-        plot.render();
-        setImgData(canvas.toDataURL());
-
-      })
-    }
-  }, [property]);
 
   const handleClickBack = e => {
     history.replace("/list");
@@ -66,8 +37,7 @@ const PropDetails = (props) => {
     {property && <Container maxWidth="sm" >
       <Card sx={{ maxWidth: 345 }} sx={{ marginLeft: "auto", marginRight: "auto" }}>
         <CardHeader title={property.name} />
-        {imgData && <CardMedia component="img" alt="property image" src={imgData} />}
-        {!imgData && <Typography>Loading ...</Typography>}
+        <CardMedia component="img" alt="property image" src={`/display/${pid}?overlay=yes&parcel=green`} />        
         <CardContent>
           <Typography>
             Property latitude: {property.coordinates[0]}
@@ -85,14 +55,16 @@ const PropDetails = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { geocode_geo, image_url } = state.properties.property;
-  return geocode_geo ? {
+  const { id, geocode_geo, image_url } = state.properties.property;
+
+  return geocode_geo ? Object.assign({}, {
     property: {
+      id,
       name: geocode_geo.crs.properties.name,
       coordinates: geocode_geo.coordinates,
-      image_url
+      image_url,      
     }
-  } : {};
+  }) : {};
 };
 
 const mapDisptatchToProps = (dispatch) => {
