@@ -37,8 +37,7 @@ const PropDetails = (props) => {
       const { image_url } = property;
       const img = image_url.split("/").pop();
 
-      fromUrl(`api/${img}`).then(async tiff => {
-        console.log(tiff);
+      fromUrl(`api/${img}`).then(async tiff => {        
         const img = await tiff.getImage();
         const data = await img.readRasters();
 
