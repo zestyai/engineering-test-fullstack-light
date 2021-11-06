@@ -31,7 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp build/ ../server/public/",
+    "build": "rm -rf ../server/public/* && NODE_ENV=production react-scripts build && cp -r build/ ../server/public/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
