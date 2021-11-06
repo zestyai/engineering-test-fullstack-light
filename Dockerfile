@@ -1,4 +1,4 @@
-FROM node:slim
+FROM nikolaik/python-nodejs
 
 WORKDIR /var/app
 

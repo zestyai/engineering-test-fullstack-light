@@ -157,11 +157,8 @@ exports.display = async (req, res, next) => {
       context.stroke();
     }
 
-
-
-    canvas.pngStream().pipe(fs.createWriteStream('output.png'));
-
-    res.send({ status: "ok", result });
+    res.setHeader("Content-Type", "image/jpeg");    
+    canvas.pngStream().pipe(res);    
   } catch (e) {
     console.error(e);
     res.send({ status: "error", result: e.message });
