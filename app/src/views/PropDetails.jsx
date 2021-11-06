@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardHeader from '@mui/material/CardHeader';
@@ -7,12 +7,12 @@ import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { selectProperty } from "../store/utils/thunkCreators";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
-
 
 const DetailBox = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -20,8 +20,9 @@ const DetailBox = styled(Box)(({ theme }) => ({
 }))
 
 const PropDetails = (props) => {
-  const { property, selectProperty} = props;
-  const { pid } = useParams();  
+  const { property, selectProperty } = props;
+  const { pid } = useParams();
+  const [imgReady, SetImgReady] = useState(false);
 
   const history = useHistory();
 
@@ -33,11 +34,26 @@ const PropDetails = (props) => {
     history.replace("/list");
   }
 
+  const handleLoadImg = useCallback((e) => {
+    SetImgReady(!imgReady);
+  }, []);
+
   return <DetailBox>
     {property && <Container maxWidth="sm" >
       <Card sx={{ maxWidth: 345 }} sx={{ marginLeft: "auto", marginRight: "auto" }}>
         <CardHeader title={property.name} />
-        <CardMedia component="img" alt="property image" src={`/display/${pid}?overlay=yes&parcel=green`} />        
+        <CardMedia
+          component="img"
+          alt="property image"
+          loading="lazy"
+          src={`/display/${pid}?overlay=yes&parcel=green`}
+          onLoad={handleLoadImg}
+        />
+        {!imgReady && <Box sx={{ display: "grid", textAlign: "center", margin:"10px 0" }}>
+          <CircularProgress sx={{ margin: "auto" }} />
+          <Typography>Loading large image, please wait for seconds ...
+          </Typography>
+        </Box>}
         <CardContent>
           <Typography>
             Property latitude: {property.coordinates[0]}
@@ -62,7 +78,7 @@ const mapStateToProps = (state) => {
       id,
       name: geocode_geo.crs.properties.name,
       coordinates: geocode_geo.coordinates,
-      image_url,      
+      image_url,
     }
   }) : {};
 };
