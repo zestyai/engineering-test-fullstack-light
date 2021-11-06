@@ -10,8 +10,8 @@
 ## Features
 * Find Properties module
   1. Using Leaflet and Mapbox on Find properties module, in order to provide a visible hint of the searching location.
-Once user click `Search` button, the app will automatically move to the place.
-  1. Validating searching form.
+Once user click `Search` button, the map will automatically updated and move the mark to the place.
+  1. Validate searching form.
 
 ## Feedback
 * I am not clear about the __statistics__ requirement mentioned in 
