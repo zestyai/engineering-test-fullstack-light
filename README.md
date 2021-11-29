@@ -27,8 +27,7 @@ production project. Be prepared to discuss decisions you made.
 * **List all properties:** Display, in a tabular format, all properties and their geographic location (longitude and 
   latitude).
   
-* **Property detail page:** Show detailed information about a given property, including its image, geographic location, 
-  and statistics (if applicable).
+* **Property detail page:** Show detailed information about a given property, including its image and geographic location.
 
 * **Search by coordinates:** Prompt the user for a longitude, latitude, and search radius (default 10000 meters) and 
   display, in a tabular format, the results of the search, including the properties' geographic location (longitude and 
