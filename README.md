@@ -114,8 +114,6 @@ JSON array of property IDs
 ##### Response
 JPEG image
 
-***
-
 ## Submission instructions
 
 Send us your completed application's code by email, or create and give us access to a new private GitHub repository.
@@ -123,8 +121,6 @@ Send us your completed application's code by email, or create and give us access
 Include instructions on how to run your app, and a list of what features you implemented. Add any comments or things you 
 want the reviewer to consider when looking at your submission. You don't need to be too detailed, as there will likely 
 be a review done with you where you can explain what you've done.
-
-***
 
 ## Scoring
 
