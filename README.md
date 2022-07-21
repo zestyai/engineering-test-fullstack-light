@@ -115,7 +115,6 @@ JPEG image
 
 ***
 
-
 ## Submission instructions
 
 Send us your completed application's code by email, or create and give us access to a new private GitHub repository.
@@ -123,3 +122,24 @@ Send us your completed application's code by email, or create and give us access
 Include instructions on how to run your app, and a list of what features you implemented. Add any comments or things you 
 want the reviewer to consider when looking at your submission. You don't need to be too detailed, as there will likely 
 be a review done with you where you can explain what you've done.
+
+***
+
+## Scoring
+
+Your submission will be scored out of 100 using the following scorecard:
+
+|      **Feature**      | **Max score** |
+|:---------------------:|:-------------:|
+|  List all properties  |      15       |
+|  Property detail page |      15       |
+| Search by coordinates |      20       |
+|     Image overlays    |      20       |
+|    Containerization   |      10       |
+|         Extras        |      20       |
+|       **Total**       |    **100**    |
+
+Note that the points attributed to each feature are not all-or-nothing. Partial points will be attributed for incomplete
+features. If you can't complete a feature, you're still encouraged to submit code that shows signs of your progress. 
+It's possible to get a passing grade without implementing all features, as quality is preferred over quantity. Extra 
+points will be given for going above expectations quality-wise.
