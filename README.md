@@ -6,6 +6,7 @@
 - [Setup](#setup)
 - [API Specification](#api-specification)
 - [Submission Instructions](#submission-instructions)
+- [Scoring](#scoring)
 
 ## Background
 
